@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chimacum HOSA Election Results</title>
+  <style>
+    :root{--navy:#14213d;--maroon:#8b1e2d;--ink:#18202c;--muted:#667085;--line:#d8dee8;--bg:#f5f7fb;--card:#fff;--gold:#a66b00;--ok:#1d6b45}
+    *{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:radial-gradient(circle at 50% -100px,#e6ebf5 0,#f7f8fb 480px,#f5f7fb 100%)}
+    .wrap{width:min(1050px,calc(100% - 28px));margin:0 auto 60px}.top{padding:40px 0 22px}.brandline{height:7px;border-radius:99px;background:linear-gradient(90deg,var(--maroon) 0 36%,var(--navy) 36% 100%);margin-bottom:20px}h1{margin:0;color:var(--navy);font-size:clamp(2rem,5vw,3.4rem);letter-spacing:-.04em;line-height:1}.sub{color:var(--muted);font-size:1.05rem;line-height:1.55;max-width:780px;margin:12px 0 0}
+    .panel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 14px 34px rgba(25,35,55,.07);margin-top:18px}.center{text-align:center}.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;font-weight:900;color:var(--maroon)}.big{font-size:clamp(1.7rem,4vw,2.8rem);color:var(--navy);font-weight:900;margin:8px 0}.muted{color:var(--muted);line-height:1.55}.score-note{display:inline-block;margin-top:12px;padding:8px 12px;border-radius:999px;background:#eef1f6;color:#35445f;font-weight:750;font-size:.88rem}
+    button{font:inherit;font-weight:850;border:0;border-radius:12px;min-height:46px;padding:12px 18px;cursor:pointer}.primary{background:var(--maroon);color:white}.secondary{background:#e9edf4;color:var(--navy)}button:disabled{opacity:.5;cursor:not-allowed}.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+    .reveal{display:none;position:relative;overflow:hidden}.office-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:18px}.office-head h2{margin:4px 0 0;color:var(--navy);font-size:clamp(1.8rem,4vw,2.8rem)}.office-count{font-size:.9rem;color:var(--muted);font-weight:700}.bars{display:grid;gap:16px}.candidate{display:grid;grid-template-columns:minmax(140px,240px) 1fr minmax(88px,110px);gap:14px;align-items:center}.name{font-weight:850;color:#263550}.bartrack{height:28px;background:#edf0f5;border-radius:999px;overflow:hidden;border:1px solid #e1e5ec}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--navy),#344d7e);border-radius:999px;transition:width 1.4s cubic-bezier(.2,.8,.2,1)}.points{text-align:right;font-variant-numeric:tabular-nums;font-weight:900;color:var(--navy)}.details{grid-column:2 / 4;margin-top:-8px;color:var(--muted);font-size:.86rem}
+    .outcome{display:none;margin-top:24px;padding:20px;border-radius:18px;background:#f7f8fb;border:1px solid #dfe4ec;text-align:center}.outcome.show{display:block;animation:pop .35s ease}.winner{font-size:clamp(1.7rem,4vw,2.8rem);font-weight:950;color:var(--maroon);line-height:1.05}.runoff{font-size:clamp(1.5rem,4vw,2.4rem);font-weight:950;color:#9b4a0b}.reason{margin-top:8px;color:var(--muted);font-weight:650}.uncontested{color:var(--gold);font-weight:850;text-transform:uppercase;letter-spacing:.08em;font-size:.82rem;margin-bottom:7px}.footerline{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:22px;flex-wrap:wrap}.setup{display:none;background:#fff7ed;border:1px solid #fed7aa;color:#8a4b08}.closed{background:#fff;border:1px solid var(--line)}
+    .confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}.confetti i{position:absolute;top:-20px;width:9px;height:15px;border-radius:2px;background:var(--maroon);animation:fall 1.8s linear forwards}.confetti i:nth-child(3n){background:var(--navy)}.confetti i:nth-child(3n+1){background:#c18a18}
+    @keyframes fall{to{transform:translateY(520px) rotate(540deg);opacity:.1}}@keyframes pop{0%{transform:scale(.97);opacity:.2}100%{transform:scale(1);opacity:1}}
+    @media(max-width:720px){.candidate{grid-template-columns:1fr 72px;gap:8px}.bartrack{grid-column:1 / 3;grid-row:2}.details{grid-column:1 / 3;grid-row:3;margin-top:0}.points{grid-column:2;grid-row:1}.office-head{align-items:flex-start;flex-direction:column}.wrap{width:min(100% - 18px,1050px)}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top"><div class="brandline"></div><h1>HOSA Election Night</h1><p class="sub">2026–27 Chimacum HOSA Leadership Election. Results remain hidden until the advisor publishes them.</p></header>
+
+    <section id="loading" class="panel center"><div class="eyebrow">Election status</div><div class="big">Loading results…</div><p class="muted">Checking the official election sheet.</p></section>
+
+    <section id="setup" class="panel setup"><strong>Teacher setup needed:</strong> replace <code>YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL</code> in this file with the same Apps Script URL used by the ballot.</section>
+
+    <section id="notPublished" class="panel center closed" hidden>
+      <div class="eyebrow">Results locked</div><div class="big">Voting is still open</div><p class="muted" id="lockedMessage">Results have not been published yet.</p>
+      <div class="actions"><button type="button" id="refreshLocked" class="secondary">Check Again</button></div>
+    </section>
+
+    <section id="ready" class="panel center" hidden>
+      <div class="eyebrow">Results are ready</div><div class="big">Let the reveal begin.</div><p class="muted" id="readyMeta"></p><div id="scoringNote" class="score-note"></div>
+      <div class="actions"><button type="button" id="beginBtn" class="primary">Begin Results Reveal</button></div>
+    </section>
+
+    <section id="reveal" class="panel reveal" aria-live="polite">
+      <div class="confetti" id="confetti"></div>
+      <div class="office-head"><div><div class="eyebrow">Now revealing</div><h2 id="officeName"></h2></div><div id="officeCount" class="office-count"></div></div>
+      <div id="bars" class="bars"></div>
+      <div id="outcome" class="outcome"></div>
+      <div class="footerline"><button type="button" id="revealBtn" class="primary">Reveal Results</button><div><button type="button" id="restartBtn" class="secondary">Restart Reveal</button> <button type="button" id="nextBtn" class="secondary" disabled>Next Office →</button></div></div>
+    </section>
+  </div>
+
+<script>
+(() => {
+  "use strict";
+  const API_URL = "https://script.google.com/macros/s/AKfycbyVed3nsOcJsOjGGbYcY_WiOz_tEjToK-NxYdZwXUYIoHTS5uQgwI9-R34W51R_dTdtZg/exec";
+
+  const loading = document.getElementById("loading");
+  const setup = document.getElementById("setup");
+  const notPublished = document.getElementById("notPublished");
+  const ready = document.getElementById("ready");
+  const lockedMessage = document.getElementById("lockedMessage");
+  const readyMeta = document.getElementById("readyMeta");
+  const scoringNote = document.getElementById("scoringNote");
+  const beginBtn = document.getElementById("beginBtn");
+  const refreshLocked = document.getElementById("refreshLocked");
+  const reveal = document.getElementById("reveal");
+  const officeName = document.getElementById("officeName");
+  const officeCount = document.getElementById("officeCount");
+  const bars = document.getElementById("bars");
+  const outcome = document.getElementById("outcome");
+  const revealBtn = document.getElementById("revealBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const restartBtn = document.getElementById("restartBtn");
+  const confetti = document.getElementById("confetti");
+
+  let payload = null;
+  let officeIndex = 0;
+  let revealed = false;
+
+  function jsonpResults(callback) {
+    const cbName = "hosaResultsCallback_" + Math.random().toString(36).slice(2);
+    const script = document.createElement("script");
+    let finished = false;
+    const timer = setTimeout(() => cleanup(new Error("Results request timed out.")), 9000);
+
+    function cleanup(err, data) {
+      if (finished) return;
+      finished = true;
+      clearTimeout(timer);
+      delete window[cbName];
+      script.remove();
+      callback(err, data);
+    }
+
+    window[cbName] = data => cleanup(null, data);
+    script.onerror = () => cleanup(new Error("Could not reach the election service."));
+    const joiner = API_URL.includes("?") ? "&" : "?";
+    script.src = API_URL + joiner + "action=results&callback=" + encodeURIComponent(cbName) + "&_=" + Date.now();
+    document.head.appendChild(script);
+  }
+
+  function loadResults() {
+    loading.hidden = false;
+    notPublished.hidden = true;
+    ready.hidden = true;
+    reveal.style.display = "none";
+
+    if (API_URL.includes("YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL")) {
+      loading.hidden = true;
+      setup.style.display = "block";
+      return;
+    }
+
+    jsonpResults((err, data) => {
+      loading.hidden = true;
+      if (err || !data || !data.ok) {
+        notPublished.hidden = false;
+        lockedMessage.textContent = "Could not load election results. Check the Apps Script deployment and try again.";
+        return;
+      }
+
+      payload = data;
+      if (!data.published) {
+        notPublished.hidden = false;
+        lockedMessage.textContent = data.votingOpen
+          ? `Voting is open. ${data.ballotCount} ballot${data.ballotCount === 1 ? " has" : "s have"} been recorded so far.`
+          : `Voting is closed, but the advisor has not published results yet. ${data.ballotCount} ballot${data.ballotCount === 1 ? " was" : "s were"} recorded.`;
+        return;
+      }
+
+      ready.hidden = false;
+      readyMeta.textContent = `${data.ballotCount} ballot${data.ballotCount === 1 ? "" : "s"} recorded. Individual ballots and student emails are not sent to this page.`;
+      scoringNote.textContent = `${data.scoring.firstChoicePoints} points for 1st choice • ${data.scoring.secondChoicePoints} point for 2nd choice`;
+    });
+  }
+
+  function renderOffice() {
+    const office = payload.offices[officeIndex];
+    officeName.textContent = office.label;
+    officeCount.textContent = `Office ${officeIndex + 1} of ${payload.offices.length}`;
+    bars.innerHTML = "";
+    outcome.className = "outcome";
+    outcome.innerHTML = "";
+    confetti.innerHTML = "";
+    revealed = false;
+    revealBtn.disabled = false;
+    nextBtn.disabled = true;
+    nextBtn.textContent = officeIndex === payload.offices.length - 1 ? "Finish" : "Next Office →";
+
+    const maxPoints = Math.max(1, ...office.candidates.map(c => c.points));
+    office.candidates.forEach(c => {
+      const row = document.createElement("div");
+      row.className = "candidate";
+      row.dataset.points = c.points;
+      row.dataset.first = c.first;
+      row.dataset.second = c.second;
+      row.dataset.max = maxPoints;
+      row.innerHTML = `<div class="name"></div><div class="bartrack"><div class="bar"></div></div><div class="points">0 pts</div><div class="details">1st-choice: 0 &nbsp; • &nbsp; 2nd-choice: 0</div>`;
+      row.querySelector(".name").textContent = c.name;
+      bars.appendChild(row);
+    });
+  }
+
+  function countUp(el, end, suffix, duration=1200) {
+    const start = performance.now();
+    function frame(now) {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.round(end * eased) + suffix;
+      if (t < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function makeConfetti() {
+    confetti.innerHTML = "";
+    for (let i = 0; i < 36; i++) {
+      const piece = document.createElement("i");
+      piece.style.left = (Math.random() * 100) + "%";
+      piece.style.animationDelay = (Math.random() * .5) + "s";
+      piece.style.transform = `rotate(${Math.random()*180}deg)`;
+      confetti.appendChild(piece);
+    }
+  }
+
+  function revealCurrent() {
+    if (revealed) return;
+    revealed = true;
+    revealBtn.disabled = true;
+    const office = payload.offices[officeIndex];
+    const rows = [...bars.querySelectorAll(".candidate")];
+
+    requestAnimationFrame(() => {
+      rows.forEach((row, i) => {
+        const pts = Number(row.dataset.points);
+        const first = Number(row.dataset.first);
+        const second = Number(row.dataset.second);
+        const max = Number(row.dataset.max) || 1;
+        const width = pts === 0 ? 0 : Math.max(7, (pts / max) * 100);
+        setTimeout(() => {
+          row.querySelector(".bar").style.width = width + "%";
+          countUp(row.querySelector(".points"), pts, " pts");
+          setTimeout(() => {
+            row.querySelector(".details").textContent = `1st-choice: ${first}   •   2nd-choice: ${second}`;
+          }, 850);
+        }, i * 130);
+      });
+    });
+
+    setTimeout(() => {
+      if (office.runoff) {
+        outcome.innerHTML = `<div class="runoff">RUNOFF REQUIRED</div><div class="reason">The top candidates are tied on total points and on first-choice votes.</div>`;
+      } else if (office.uncontested) {
+        outcome.innerHTML = `<div class="uncontested">Uncontested</div><div class="winner"></div><div class="reason">${office.abstainFirst} first-choice abstention${office.abstainFirst === 1 ? "" : "s"} recorded.</div>`;
+        outcome.querySelector(".winner").textContent = office.winner;
+        makeConfetti();
+      } else {
+        outcome.innerHTML = `<div class="winner"></div><div class="reason"></div>`;
+        outcome.querySelector(".winner").textContent = office.winner + " — WINNER";
+        outcome.querySelector(".reason").textContent = office.tieBreakUsed
+          ? "Total points were tied, so the winner was determined by more first-choice votes."
+          : "Highest weighted vote total.";
+        makeConfetti();
+      }
+      outcome.className = "outcome show";
+      nextBtn.disabled = false;
+    }, 1850 + rows.length * 130);
+  }
+
+  function startReveal() {
+    officeIndex = 0;
+    ready.hidden = true;
+    reveal.style.display = "block";
+    renderOffice();
+    reveal.scrollIntoView({behavior:"smooth", block:"start"});
+  }
+
+  function nextOffice() {
+    if (!revealed) return;
+    if (officeIndex >= payload.offices.length - 1) {
+      officeIndex = 0;
+      renderOffice();
+      officeName.textContent = "Reveal complete";
+      officeCount.textContent = "All offices shown";
+      bars.innerHTML = `<div class="center"><div class="big">Congratulations to the 2026–27 HOSA leadership team.</div><p class="muted">Use Restart Reveal if you want to show the results again.</p></div>`;
+      revealBtn.disabled = true;
+      nextBtn.disabled = true;
+      outcome.className = "outcome";
+      return;
+    }
+    officeIndex++;
+    renderOffice();
+  }
+
+  beginBtn.addEventListener("click", startReveal);
+  revealBtn.addEventListener("click", revealCurrent);
+  nextBtn.addEventListener("click", nextOffice);
+  restartBtn.addEventListener("click", () => {
+    if (!payload || !payload.published) return;
+    officeIndex = 0;
+    renderOffice();
+  });
+  refreshLocked.addEventListener("click", loadResults);
+
+  loadResults();
+})();
+</script>
+</body>
+</html>

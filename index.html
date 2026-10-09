@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chimacum HOSA Leadership Election</title>
+  <style>
+    :root{--navy:#14213d;--navy2:#1f335f;--maroon:#8b1e2d;--paper:#f7f8fb;--card:#fff;--ink:#18202c;--muted:#667085;--line:#d7dce5;--ok:#1d6b45;--warn:#8a4b08}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:linear-gradient(180deg,#eef2f8 0,#f8f9fc 280px,#f7f8fb 100%)}
+    .wrap{width:min(1040px,calc(100% - 32px));margin:0 auto 56px} header{padding:42px 0 26px}.brandline{height:7px;border-radius:999px;background:linear-gradient(90deg,var(--maroon) 0 36%,var(--navy) 36% 100%);margin-bottom:22px}
+    h1{font-size:clamp(2rem,5vw,3.25rem);line-height:1.02;margin:0;color:var(--navy);letter-spacing:-.035em}.subtitle{font-size:1.05rem;color:var(--muted);margin:12px 0 0;max-width:780px;line-height:1.55}
+    .notice{margin-top:22px;padding:14px 16px;border:1px solid #cfd7e6;border-radius:14px;background:#fff;color:#334155;line-height:1.45}.notice strong{color:var(--navy)}
+    .statusbar{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:14px;font-size:.9rem;color:var(--muted)}.dot{width:10px;height:10px;border-radius:50%;background:#9aa4b2}.dot.open{background:#228b5a}.dot.closed{background:#a63a49}
+    .panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 10px 30px rgba(25,35,55,.06);margin-top:18px}.panel h2{margin:0 0 4px;font-size:1.35rem;color:var(--navy)}.panel p{margin:0;color:var(--muted);line-height:1.5}
+    .voter-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px} label{display:block;font-weight:700;font-size:.92rem;margin-bottom:7px;color:#273449} input,select{width:100%;font:inherit;border:1px solid #bfc7d4;border-radius:10px;background:#fff;padding:12px 13px;color:var(--ink);min-height:46px}
+    input:focus,select:focus,button:focus{outline:3px solid rgba(31,51,95,.18);outline-offset:2px;border-color:var(--navy2)}
+    .race{margin-top:20px;background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 7px 22px rgba(25,35,55,.045)}.race-head{padding:19px 22px 14px;border-bottom:1px solid var(--line);display:flex;align-items:flex-end;justify-content:space-between;gap:16px}.race-head h3{margin:0;color:var(--navy);font-size:1.35rem}.race-head .hint{font-size:.85rem;color:var(--muted);text-align:right}
+    .candidate-strip{padding:15px 22px 0;display:flex;gap:8px;flex-wrap:wrap}.candidate-pill{background:#eef1f6;color:#24334d;border:1px solid #d8deea;border-radius:999px;padding:7px 10px;font-size:.9rem;font-weight:650}.choices{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:18px 22px 22px}.choicebox{background:var(--paper);border:1px solid #e0e5ee;border-radius:14px;padding:14px}.choicebox .rank{display:flex;align-items:center;gap:8px;margin-bottom:9px}.badge{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;font-size:.9rem}.second .badge{background:var(--maroon)}.small{font-size:.85rem;color:var(--muted);font-weight:500}
+    .footer-actions{display:flex;gap:12px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-top:24px}button{border:0;border-radius:12px;padding:13px 18px;font:inherit;font-weight:800;cursor:pointer;min-height:46px}.primary{background:var(--maroon);color:#fff}.secondary{background:#e8ecf3;color:var(--navy)}button:disabled{cursor:not-allowed;opacity:.5}.error{color:#9b1c2c!important;font-weight:700}.success{color:var(--ok)!important;font-weight:700}
+    .setup{display:none;margin-top:16px;padding:13px 15px;border-radius:12px;background:#fff7ed;border:1px solid #fed7aa;color:#8a4b08;line-height:1.45}.summary{margin-top:16px;display:none;padding:18px;border-radius:16px;border:1px solid var(--line);background:#fafbfd}.summary h3{margin:0 0 10px;color:var(--navy)}.summary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 16px}.summary-item{padding:10px 0;border-bottom:1px solid #e5e9f0}.summary-item strong{display:block;color:#23314a;margin-bottom:3px}.summary-item span{color:var(--muted);font-size:.92rem}.fineprint{margin:22px 2px 0;color:#7a8495;font-size:.82rem;line-height:1.45}
+    @media(max-width:720px){.voter-grid,.choices,.summary-grid{grid-template-columns:1fr}.race-head{align-items:flex-start;flex-direction:column}.race-head .hint{text-align:left}.wrap{width:min(100% - 20px,1040px)}header{padding-top:26px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brandline"></div>
+      <h1>Chimacum HOSA Leadership Election</h1>
+      <p class="subtitle">Rank your first and second choice for each chapter office. Your first choice is the person you most want in that position. A second choice is optional.</p>
+      <div class="notice"><strong>One ballot per student.</strong> Enter your school email so duplicate submissions can be blocked. Your individual ballot is stored privately and is not shown on the public results page.</div>
+      <div class="statusbar"><span id="statusDot" class="dot"></span><span id="electionStatus">Checking election status…</span></div>
+      <div id="setupWarning" class="setup"><strong>Teacher setup needed:</strong> replace <code>YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL</code> in this file with your deployed Apps Script Web App URL.</div>
+    </header>
+
+    <form id="ballotForm" method="POST" novalidate>
+      <section class="panel" aria-labelledby="voter-heading">
+        <h2 id="voter-heading">Voter information</h2>
+        <p>This is used to prevent accidental duplicate ballots. It is not displayed publicly.</p>
+        <div class="voter-grid">
+          <div><label for="studentName">First and last name</label><input id="studentName" name="studentName" autocomplete="name" required maxlength="80" /></div>
+          <div><label for="studentEmail">School email</label><input id="studentEmail" name="studentEmail" type="email" autocomplete="email" required maxlength="120" placeholder="name@student.csd49.org" /></div>
+        </div>
+      </section>
+
+      <div id="races"></div>
+
+      <section class="panel">
+        <h2>Review and submit</h2>
+        <p>Check your choices before submitting. You cannot select the same candidate as both first and second choice for the same office.</p>
+        <div id="summary" class="summary" aria-live="polite"></div>
+        <div class="footer-actions">
+          <div id="formStatus" aria-live="polite">Complete the ballot, then review your choices.</div>
+          <button type="button" class="secondary" id="reviewBtn">Review Ballot</button>
+          <button type="submit" class="primary" id="submitBtn">Submit Ballot</button>
+        </div>
+      </section>
+
+      <input type="hidden" name="ballotVersion" value="2026-HOSA-Officers-v2" />
+    </form>
+
+    <p class="fineprint">Candidate names are drawn from the 2026–27 Chimacum HOSA interest survey. Parent/guardian contact information and other survey responses are not included in this site.</p>
+  </div>
+
+<script>
+(() => {
+  "use strict";
+
+  const API_URL = "https://script.google.com/macros/s/AKfycbyVed3nsOcJsOjGGbYcY_WiOz_tEjToK-NxYdZwXUYIoHTS5uQgwI9-R34W51R_dTdtZg/exec";
+
+  const races = [
+    { id:"president", label:"President", candidates:["Anafinna Jacobsen","Isabella Van Ness"] },
+    { id:"vicePresident", label:"Vice President", candidates:["Lillian Lenigan","Gwen Mathews"] },
+    { id:"secretary", label:"Secretary", candidates:["Gwen Mathews","Jasmine Spears","Layla Woodley"] },
+    { id:"treasurer", label:"Treasurer", candidates:["Jaxon Robin Nichols","Lillian Lenigan","Carina Shiflett","Juliet Jones","Gwen Mathews"] },
+    { id:"communications", label:"Communications / Publicity", candidates:["Gwen Mathews"] }
+  ];
+
+  const form = document.getElementById("ballotForm");
+  const racesEl = document.getElementById("races");
+  const reviewBtn = document.getElementById("reviewBtn");
+  const submitBtn = document.getElementById("submitBtn");
+  const summaryEl = document.getElementById("summary");
+  const formStatus = document.getElementById("formStatus");
+  const setupWarning = document.getElementById("setupWarning");
+  const electionStatus = document.getElementById("electionStatus");
+  const statusDot = document.getElementById("statusDot");
+
+  const escapeHtml = value => String(value).replace(/[&<>'"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));
+  const shuffle = arr => {
+    const copy = arr.slice();
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  };
+
+  const displayRaces = races.map(r => ({...r, candidates: shuffle(r.candidates)}));
+
+  function optionMarkup(candidates, includeNone, noneLabel) {
+    const opts = ['<option value="">Choose…</option>'];
+    for (const name of candidates) opts.push(`<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`);
+    if (includeNone) opts.push(`<option value="${escapeHtml(noneLabel)}">${escapeHtml(noneLabel)}</option>`);
+    return opts.join("");
+  }
+
+  displayRaces.forEach(race => {
+    const section = document.createElement("section");
+    section.className = "race";
+    const oneCandidate = race.candidates.length === 1;
+    section.innerHTML = `
+      <div class="race-head">
+        <h3>${escapeHtml(race.label)}</h3>
+        <div class="hint">${oneCandidate ? "One candidate is currently nominated." : race.candidates.length + " candidates"}</div>
+      </div>
+      <div class="candidate-strip" aria-label="Candidates for ${escapeHtml(race.label)}">
+        ${race.candidates.map(n => `<span class="candidate-pill">${escapeHtml(n)}</span>`).join("")}
+      </div>
+      <div class="choices">
+        <div class="choicebox first">
+          <div class="rank"><span class="badge">1</span><label for="${race.id}_first" style="margin:0">First choice</label></div>
+          <select id="${race.id}_first" name="${race.id}_first" required>${optionMarkup(race.candidates, true, "Abstain")}</select>
+        </div>
+        <div class="choicebox second">
+          <div class="rank"><span class="badge">2</span><label for="${race.id}_second" style="margin:0">Second choice <span class="small">(optional)</span></label></div>
+          <select id="${race.id}_second" name="${race.id}_second" ${oneCandidate ? "disabled" : ""}>
+            ${oneCandidate ? '<option value="No second choice">No second choice</option>' : optionMarkup(race.candidates, true, "No second choice")}
+          </select>
+        </div>
+      </div>`;
+    racesEl.appendChild(section);
+  });
+
+  function setFormStatus(message, isError=false, isSuccess=false) {
+    formStatus.textContent = message;
+    formStatus.className = isError ? "error" : isSuccess ? "success" : "";
+  }
+
+  function syncRace(race) {
+    const first = document.getElementById(`${race.id}_first`);
+    const second = document.getElementById(`${race.id}_second`);
+    if (!first || !second || race.candidates.length === 1) return;
+
+    const firstValue = first.value;
+    [...second.options].forEach(opt => {
+      opt.disabled = !!firstValue && opt.value === firstValue && opt.value !== "No second choice";
+    });
+    if (second.value === firstValue && firstValue !== "") second.value = "";
+    second.disabled = firstValue === "Abstain";
+    if (firstValue === "Abstain") second.value = "No second choice";
+  }
+
+  displayRaces.forEach(race => {
+    const first = document.getElementById(`${race.id}_first`);
+    const second = document.getElementById(`${race.id}_second`);
+    first.addEventListener("change", () => syncRace(race));
+    second.addEventListener("change", () => {
+      if (second.value && second.value === first.value) {
+        second.value = "";
+        setFormStatus("Choose a different second choice for " + race.label + ".", true);
+      }
+    });
+  });
+
+  function validateBallot() {
+    if (!form.reportValidity()) return false;
+    const email = document.getElementById("studentEmail").value.trim().toLowerCase();
+    if (!/@student\.csd49\.org$/.test(email) && !/@student\.csd\.org$/.test(email)) {
+      setFormStatus("Please use your school student email address.", true);
+      document.getElementById("studentEmail").focus();
+      return false;
+    }
+    for (const race of displayRaces) {
+      const first = document.getElementById(`${race.id}_first`).value;
+      const second = document.getElementById(`${race.id}_second`).value;
+      if (first && second && first === second && first !== "Abstain") {
+        setFormStatus(`Your first and second choice for ${race.label} must be different.`, true);
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function buildSummary() {
+    if (!validateBallot()) return;
+    const items = displayRaces.map(race => {
+      const first = document.getElementById(`${race.id}_first`).value || "—";
+      const secondEl = document.getElementById(`${race.id}_second`);
+      const second = secondEl ? (secondEl.value || "No second choice") : "No second choice";
+      return `<div class="summary-item"><strong>${escapeHtml(race.label)}</strong><span>1st: ${escapeHtml(first)}<br>2nd: ${escapeHtml(second)}</span></div>`;
+    }).join("");
+    summaryEl.innerHTML = `<h3>Your ballot</h3><div class="summary-grid">${items}</div>`;
+    summaryEl.style.display = "block";
+    summaryEl.scrollIntoView({behavior:"smooth", block:"nearest"});
+    setFormStatus("Review complete. Submit when you are ready.");
+  }
+
+  reviewBtn.addEventListener("click", buildSummary);
+
+  function jsonp(action, callback) {
+    const cbName = "hosaStatusCallback_" + Math.random().toString(36).slice(2);
+    const script = document.createElement("script");
+    let finished = false;
+    const timer = setTimeout(() => cleanup(new Error("Status check timed out.")), 8000);
+
+    function cleanup(err, data) {
+      if (finished) return;
+      finished = true;
+      clearTimeout(timer);
+      delete window[cbName];
+      script.remove();
+      callback(err, data);
+    }
+
+    window[cbName] = data => cleanup(null, data);
+    script.onerror = () => cleanup(new Error("Could not reach the election service."));
+    const joiner = API_URL.includes("?") ? "&" : "?";
+    script.src = API_URL + joiner + "action=" + encodeURIComponent(action) + "&callback=" + encodeURIComponent(cbName) + "&_=" + Date.now();
+    document.head.appendChild(script);
+  }
+
+  function lockForm(message) {
+    [...form.querySelectorAll("input,select,button")].forEach(el => el.disabled = true);
+    electionStatus.textContent = message;
+    statusDot.className = "dot closed";
+    setFormStatus(message, true);
+  }
+
+  if (API_URL.includes("YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL")) {
+    setupWarning.style.display = "block";
+    submitBtn.disabled = true;
+    electionStatus.textContent = "Teacher setup required";
+  } else {
+    form.action = API_URL;
+    jsonp("status", (err, data) => {
+      if (err || !data || !data.ok) {
+        electionStatus.textContent = "Could not verify status; the backend will still check when you submit.";
+        return;
+      }
+      if (data.votingOpen) {
+        statusDot.className = "dot open";
+        electionStatus.textContent = "Voting is open";
+      } else {
+        lockForm("Voting is closed.");
+      }
+    });
+  }
+
+  form.addEventListener("submit", e => {
+    if (!validateBallot()) {
+      e.preventDefault();
+      return;
+    }
+    for (const race of displayRaces) {
+      const second = document.getElementById(`${race.id}_second`);
+      if (second.disabled) {
+        let hidden = form.querySelector(`input[data-shadow-for="${race.id}_second"]`);
+        if (!hidden) {
+          hidden = document.createElement("input");
+          hidden.type = "hidden";
+          hidden.dataset.shadowFor = `${race.id}_second`;
+          hidden.name = `${race.id}_second`;
+          form.appendChild(hidden);
+        }
+        hidden.value = "No second choice";
+      }
+    }
+    setFormStatus("Submitting ballot…");
+    submitBtn.disabled = true;
+  });
+})();
+</script>
+</body>
+</html>
